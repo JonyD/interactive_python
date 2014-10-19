@@ -20,14 +20,15 @@ NEW_GAME = True
 # if direction is RIGHT, the ball's velocity is upper right, else upper left
 def spawn_ball(direction):
     global ball_pos, ball_vel, NEW_GAME # these are vectors stored as lists
-    print "INICIO"
     if NEW_GAME:
-        print "nwe"
+        print "ola"
         ball_pos = [WIDTH/2, HEIGHT/2]
+        x_velocity = 1 #random.randrange(120, 240)
+        y_velocity = 1 #random.randrange(60, 180)
         if direction == RIGHT:
-            ball_vel = [1,-1]
+            ball_vel = [x_velocity, -y_velocity]
         elif direction == LEFT:
-            ball_vel = [-1,-1]
+            ball_vel = [-x_velocity,-y_velocity]
         NEW_GAME=False
 
     #update ball position    
@@ -42,15 +43,22 @@ def spawn_ball(direction):
     #validate colision DOWN
     if ball_pos[1] >= HEIGHT- BALL_RADIUS:
         ball_vel[1] = -ball_vel[1]
-
     
     #validate colision left
     if ball_pos[0] >= (WIDTH - PAD_WIDTH - 1 - BALL_RADIUS):
-        ball_vel[0] = -ball_vel[0]
+        # if touch pad
+        #ball_vel[0] = -ball_vel[0]
+        #elsif
+        NEW_GAME=True
+        spawn_ball(LEFT)
     
     #validate colision right
     if ball_pos[0] <= (PAD_WIDTH + BALL_RADIUS):
+        # if touch pad
         ball_vel[0] =  -ball_vel[0]
+        #elsif
+        NEW_GAME=True
+        spawn_ball(RIGHT)
         
     return ball_pos
 
